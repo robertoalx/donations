@@ -55,6 +55,7 @@ class App extends Component {
   renderCharityList = () => {
     return this.state.charityList.map(iAmAwesomeee => {
         return  <div key={iAmAwesomeee.id}
+                    className="charity__button"
                     onClick={() => this.getData(iAmAwesomeee.id)}>
                     {iAmAwesomeee.charityName}
                 </div>
