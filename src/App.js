@@ -103,7 +103,9 @@ class App extends Component {
     const {loading} = this.state
     return (
       <div className="App">
-        {this.renderCharityList()}
+        <div className="charity__list">
+          {this.renderCharityList()}
+        </div>
         <div>{this.renderCharity()}</div>
         <div>{this.renderDonation()}</div>
         {loading && <div className="loading">loading...</div>}
