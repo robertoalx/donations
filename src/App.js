@@ -54,27 +54,55 @@ class App extends Component {
     return this.state.charityList.map(iAmAwesomeee => {
         return  <div key={iAmAwesomeee.id}
                     onClick={() => this.getData(iAmAwesomeee.id)}>
-                    == {iAmAwesomeee.charityName} ==
+                    {iAmAwesomeee.charityName}
                 </div>
       }
     )
   }
 
   renderCharity = () => {
-    return this.state.charity && this.state.charity.name;
+    const { charity } = this.state;
+    console.log(charity)
+    return charity && (
+      <div className="charity__wrapper">
+        <div className="charity__logo">
+          <img src={charity.logoAbsoluteUrl} alt={charity.name}/>
+        </div>
+        <h2 className="charity__name">{charity.name}</h2>
+        <div className="charity__description">{charity.description}</div>
+      </div>
+    )
   }
 
   renderDonation = () => {
-    return this.state.donationList.length && this.state.donationList[0].amount;
+    // amount: 10.5
+    // currencyCode: "GBP"
+    // donationDate: "/Date(1538352000000+0000)/"
+    // donorDisplayName: "Mark Walker"
+    // donorLocalAmount: 10.5
+    // donorLocalCurrencyCode: "GBP"
+    // estimatedTaxReclaim: 0
+    // imageUrl: "https://www.justgiving.com/content/images/graphics/icons/avatars/facebook-avatar.gif"
+    // message:
+    const niceAmount = (amount, currency) => new Intl.NumberFormat('en-GB', { style: 'currency', currency: currency || 'GBP'}).format(amount);
+    return this.state.donationList.length && this.state.donationList.map(donation => 
+      (<div className="donation__wrapper">
+        <div className="donation__image">
+          <img src={donation.imageUrl} alt={donation.donorDisplayName}/>
+        </div>
+        <div className="donation__name">{donation.donorDisplayName}</div>
+        <div className="donation__amount">{niceAmount(donation.amount, donation.currencyCode)}</div>
+        <div className="donation__message">{donation.message}</div>
+      </div>)
+    );
   }
 
   render() {
     return (
       <div className="App">
-        <h1>Drop comments on Facebook!!!</h1> 
+        {this.renderCharityList()}
         <div>{this.renderCharity()}</div>
         <div>{this.renderDonation()}</div>
-        {this.renderCharityList()}
       </div>
     );
   }
