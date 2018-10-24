@@ -46,7 +46,7 @@ class App extends Component {
         axios.get(CHARITY_DONATION_URL)
       ]
     ).then(axios.spread(({data: charity}, {data: {donations: donationList}}) => {
-      console.log(charity, donationList)
+      this.setState({charity, donationList})
     }))
   }
 
@@ -60,12 +60,20 @@ class App extends Component {
     )
   }
 
+  renderCharity = () => {
+    return this.state.charity && this.state.charity.name;
+  }
+
+  renderDonation = () => {
+    return this.state.donationList.length && this.state.donationList[0].amount;
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Drop comments on Facebook!!!</h1> 
-        <div>donation: {JSON.stringify(this.state.charity)}</div>
-        <div>donation: {JSON.stringify(this.state.donationList)}</div>
+        <div>{this.renderCharity()}</div>
+        <div>{this.renderDonation()}</div>
         {this.renderCharityList()}
       </div>
     );
