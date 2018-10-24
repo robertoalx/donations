@@ -6,6 +6,7 @@ import DEV_ID from './constant';
 
 class App extends Component {
   state = {
+    loading: false,
     charity: null,
     donationList: [],
     charityList: [
@@ -40,13 +41,14 @@ class App extends Component {
     const CHARITY_URL = `https://api.justgiving.com/${DEV_ID}/v1/charity/${charityId}`
     const CHARITY_DONATION_URL = `https://api.justgiving.com/${DEV_ID}/v1/charity/${charityId}/donations`
     // console.log(CHARITY_URL, CHARITY_DONATION_URL)
+    this.setState({loading: true});
     axios.all(
       [
         axios.get(CHARITY_URL), 
         axios.get(CHARITY_DONATION_URL)
       ]
     ).then(axios.spread(({data: charity}, {data: {donations: donationList}}) => {
-      this.setState({charity, donationList})
+      this.setState({charity, donationList, loading: false})
     }))
   }
 
@@ -98,11 +100,13 @@ class App extends Component {
   }
 
   render() {
+    const {loading} = this.state
     return (
       <div className="App">
         {this.renderCharityList()}
         <div>{this.renderCharity()}</div>
         <div>{this.renderDonation()}</div>
+        {loading && <div className="loading">loading...</div>}
       </div>
     );
   }
